@@ -1,3 +1,6 @@
+"use strict";
+const print = console.log;
+
 const Trader = require('../models/users');
 const Portfolio = require('../models/portfolio');
 
@@ -5,14 +8,39 @@ const getuser = function(req, res, next){
     console.log(req.body);
 }
 
-const _create_portfolio = function(trader_details){
+const _buyShare = async function(username, share_information){
+    // add stock infomation to your portfolio
+    print(username);
+    print(share_information);
 
-    const newportfolio = new Portfolio({
-        
-    })
+    const trader = await Trader.findOne({username : username}, '_id');
+    const portfolio = await Portfolio.findOne({trader_ref : trader._id})
+
+    portfolio.demat_account.push(share_information);
+    await portfolio.save();
+
+    // return new Error("this is a custom error");
+    return portfolio;
+
+}
+
+const buy_share = function(req, res, next){
+
+    let share_inf = req.body;
+
+
+    _buyShare(req.params.username, share_inf)
+        .then( result => {
+            res.status(201).json({message : 'share added to your portfolio', detail : result});
+        })
+        .catch( error => {
+            print('error code 1233455');
+            next(error);
+        });
 }
 
 const createuser = function(req, res, next){
+    // print(req.body);
     
     const newtrader = new Trader({
         name : req.body.name, 
@@ -43,14 +71,13 @@ const createuser = function(req, res, next){
                 });
 
             });
-
-
-    
+ 
 
 }
 
 module.exports = {
    getuser : getuser,
-   createuser : createuser
+   createuser : createuser,
+   buy_share : buy_share
 }
 

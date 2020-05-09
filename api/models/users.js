@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 try{
-    mongoose.connect('mongodb://localhost:27017/virtualbroker', {useNewUrlParser:true}, );
+    mongoose.connect('mongodb://localhost:27017/virtualbroker', {useNewUrlParser:true,  useUnifiedTopology: true}, );
 }
 
 catch (e){
