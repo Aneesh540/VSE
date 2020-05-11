@@ -45,7 +45,10 @@ const createuser = function(req, res, next){
     const newtrader = new Trader({
         name : req.body.name, 
         username : req.body.username, 
-        email : req.body.email});
+        email : req.body.email,
+        password : req.body.password
+    
+    });
 
     newtrader
             .save() // save gives a real promise , normal queries given exec method to turn them into real promise for then catch 
@@ -67,7 +70,7 @@ const createuser = function(req, res, next){
 
                 res.status(500).json({
                     message : 'error creating user',
-                    details : err.errmsg
+                    details : err
                 });
 
             });
