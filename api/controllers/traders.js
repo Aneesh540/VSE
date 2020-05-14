@@ -6,38 +6,9 @@ const Portfolio = require('../models/portfolio');
 
 const getuser = function(req, res, next){
     console.log(req.body);
+    res.status(200).json({message : 'badme dekhene'});
 }
 
-const _buyShare = async function(username, share_information){
-    // add stock infomation to your portfolio
-    print(username);
-    print(share_information);
-
-    const trader = await Trader.findOne({username : username}, '_id');
-    const portfolio = await Portfolio.findOne({trader_ref : trader._id})
-
-    portfolio.demat_account.push(share_information);
-    await portfolio.save();
-
-    // return new Error("this is a custom error");
-    return portfolio;
-
-}
-
-const buy_share = function(req, res, next){
-
-    let share_inf = req.body;
-
-
-    _buyShare(req.params.username, share_inf)
-        .then( result => {
-            res.status(201).json({message : 'share added to your portfolio', detail : result});
-        })
-        .catch( error => {
-            print('error code 1233455');
-            next(error);
-        });
-}
 
 const createuser = function(req, res, next){
     // print(req.body);
@@ -80,7 +51,6 @@ const createuser = function(req, res, next){
 
 module.exports = {
    getuser : getuser,
-   createuser : createuser,
-   buy_share : buy_share
+   createuser : createuser
 }
 

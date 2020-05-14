@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const Stock = new mongoose.Schema({
 
-    name : String, 
-    nse_code : String,
+    name : {type : String, required : true}, 
+    nse_code : {type : String, required : true},
     quantity : {type : Number, default : 1},
 
-    buy_price : {type : Number},
+    buy_price : {type : Number, required : true},
     sell_price : {type : Number, default : -1},
 
     buy_date : {type : Date, default : Date.now},
