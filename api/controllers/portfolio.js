@@ -28,12 +28,50 @@ const _buyShare = async function(username, share_information){
 
 }
 
-const _sellShare = async function(username, share_information){
+const _sellShare = async function(username, sell_list){
+
+    if(sell_list.length === undefined){
+        throw Error('array is required instead of object');
+    }
 
     const trader = await Trader.findOne({username : username}, '_id');
     const portfolio = await Portfolio.findOne({trader_ref : trader._id});
 
-    print(portfolio.demat_account);
+    // print(portfolio.demat_account);
+    let account = portfolio.demat_account;
+    let total = 0;
+
+    for(let i=0; i<sell_list.length; ++i){
+        
+        const stock_id = sell_list[i].id;
+        const quantity = parseInt(sell_list[i].quantity);
+        const sell_price = parseInt(sell_list[i].price);
+
+        
+
+        let stock = await account.find( (stock) => stock._id.toString() === stock_id);
+
+        if(stock){
+                    if (stock.quantity >= quantity){
+                    stock.quantity -= quantity;
+                    stock.sell_date = new Date;
+                    total += quantity*sell_price;
+
+                    }
+        }
+
+    }
+
+    portfolio.total_sell += total;
+
+    await portfolio.save();
+
+    return {statusCode : 200, 
+                data : {credit_amount : total, 
+                        buy : portfolio.total_buy,
+                        sell : portfolio.total_sell }
+    };
+    
 }
 
 
@@ -42,12 +80,22 @@ const show_demat_account = function(req, res, next){
 
     let portfolio = _getPortfolio(username)
     .then( (result) => {
-        print(result);
+
         let available_shares = result.demat_account.filter( (item) => {
-            return item.sell_price === -1;
+            return item.quantity > 0;
         });
 
-        res.status(200).json({statusCode : 200, data : available_shares});
+
+        res.status(200).json({
+            statusCode : 200, 
+            data : {
+                
+                total_buy : result.total_buy,
+                total_sell : result.total_sell,
+                available : available_shares
+
+                    }
+        });
 
     })
     .catch( (err) => {
@@ -60,18 +108,24 @@ const show_demat_account = function(req, res, next){
 
 const show_share_holding = function(req, res, next){
     /* share holding details of a particular share */
+    print('inside shareholding')
     const username = req.params.username;
-    const code = req.params.NSE_code;
+    const code = req.params.NSE_code.toUpperCase();
     let portfolio = _getPortfolio(username);
 
     portfolio
     .then( (account) =>{
         const share_holding = account.demat_account.filter( (stock) => {
-            return (stock.nse_code === code && stock.sell_price === -1);
+            return (stock.nse_code === code && stock.quantity > 0);
         });
 
+        let statusCode = 200;
+        if(share_holding.length === 0){
+            statusCode = 404;
+        }
+
         res.status(200).json({
-           statusCode : 200,
+           statusCode : statusCode,
            data : share_holding
         });
     })
@@ -83,8 +137,18 @@ const show_share_holding = function(req, res, next){
 
 
 const sell_share = function(req, res, next){
-    let username = req.params.username
-    _sellShare(username, 123);
+    let username = req.params.username;
+    let sell_list = req.body;
+
+
+    _sellShare(username, sell_list)
+    .then( (result) => {
+        res.status(200).json(result);
+    })
+    .catch( error => {
+        let details = 'a list is requied instead of array or quantity >= available quantity'
+        res.status(400).json({statusCode : 400,  error : details });
+    });
 }
 
 
@@ -101,8 +165,9 @@ const buy_share = function(req, res, next){
         .then( result => {
             res.status(201).json({
                 statusCode : 201,
-                total_buy : result.total_buy,
-                share_detail : share_inf
+                data : {total_buy : result.total_buy,
+                        total_sell : result.total_sell,
+                        share_detail : share_inf}
             });
         
         })

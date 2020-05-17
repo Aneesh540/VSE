@@ -4,7 +4,7 @@ const Stock = new mongoose.Schema({
 
     name : {type : String, required : true}, 
     nse_code : {type : String, required : true},
-    quantity : {type : Number, default : 1},
+    quantity : {type : Number, default : 1, min : [0, "less amount of share than selling quantity"]},
 
     buy_price : {type : Number, required : true},
     sell_price : {type : Number, default : -1},

@@ -23,7 +23,7 @@ router.post('/login', controller.login);
 
 
 // user operation << long term trading >>
-router.get('/:username/demat_account', controller.show_demat_account);
+router.get('/:username', controller.show_demat_account);
 router.get('/:username/:NSE_code', controller.show_share_holding);
 router.post('/:username/buy', controller.buy_share);
 router.post('/:username/sell', controller.sell_share);
