@@ -1,24 +1,16 @@
 "use strict";
-
 const mongoose = require('mongoose');
-
-try{
-    mongoose.connect('mongodb://localhost:27017/virtualbroker', {useNewUrlParser:true,  useUnifiedTopology: true}, );
-}
-
-catch (e){
-    console.log('No such database exist ');
-
-}
 
 const Trader = new mongoose.Schema({
 
     username : {type : String, required : true, unique : true},
     name : {type : String, default : 'New trader'},
+    password : {type : String, required : true},
     email: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        match : /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     }
 
 });

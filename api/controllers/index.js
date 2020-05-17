@@ -1,8 +1,23 @@
 const traders = require('./traders');
+const nse_share = require('./nse_share');
+const portfolio = require('./portfolio');
 
 module.exports = {
 
-    getuser : traders.getuser,
+    // NSE LISTED COMPANIES DETAILS
+    company_details : nse_share.company_details,
+    company_names : nse_share.company_names,
+
+    // USER OPERATIONS
+    login : traders.getuser,
     createuser : traders.createuser,
-    buy_share : traders.buy_share
+
+    // PORTFOLIO OPERATION
+    buy_share : portfolio.buy_share,
+    sell_share : portfolio.sell_share,
+    show_demat_account : portfolio.show_demat_account,
+    show_share_holding : portfolio.show_share_holding,
+
+    get_test : nse_share.company_names,
+    post_test : nse_share.company_names
 }
