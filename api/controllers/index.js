@@ -11,6 +11,7 @@ module.exports = {
     // USER OPERATIONS
     login : traders.getuser,
     createuser : traders.createuser,
+    deleteuser : traders.deleteuser,
 
     // PORTFOLIO OPERATION
     buy_share : portfolio.buy_share,
@@ -19,5 +20,5 @@ module.exports = {
     show_share_holding : portfolio.show_share_holding,
 
     get_test : nse_share.company_names,
-    post_test : nse_share.company_names
+    post_test : traders.createuser
 }

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const controller = require('../controllers/index');
 const mongoose = require('mongoose');
+const middleware = require('../middleware/checkAuth');
 
 
 try{
@@ -20,13 +21,14 @@ router.get('/NSE_name/:name', controller.company_names);
 // user registration and login routes
 router.post('/signup', controller.createuser);
 router.post('/login', controller.login);
+router.delete('/:username',middleware.check_auth, controller.deleteuser);
 
 
 // user operation << long term trading >>
-router.get('/:username', controller.show_demat_account);
-router.get('/:username/:NSE_code', controller.show_share_holding);
-router.post('/:username/buy', controller.buy_share);
-router.post('/:username/sell', controller.sell_share);
+router.get('/:username', middleware.check_auth, controller.show_demat_account);
+router.get('/:username/:NSE_code', middleware.check_auth, controller.show_share_holding);
+router.post('/:username/buy', middleware.check_auth, controller.buy_share);
+router.post('/:username/sell', middleware.check_auth, controller.sell_share);
 
 
 // GET & POST REQUEST endpoint for testing purpose
