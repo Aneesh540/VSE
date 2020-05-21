@@ -5,7 +5,8 @@ const middleware = require('../middleware/checkAuth');
 
 
 try{
-    mongoose.connect('mongodb://localhost:27017/virtualbroker', {useNewUrlParser:true,  useUnifiedTopology: true}, );
+    const uri = "mongodb+srv://virtualbroker:Aneesh540@vse-irzi4.mongodb.net/test?retryWrites=true&w=majority"
+    mongoose.connect(uri, {useNewUrlParser:true,  useUnifiedTopology: true}, );
 }
 
 catch (e){

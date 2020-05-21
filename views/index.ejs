@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title><%= title %></title>
@@ -8,4 +8,37 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
   </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Log in</title>
+
+
+</head>
+<body>
+    <h1> VSE </h2>
+    <div class="center">
+        <h1>Login</h1>
+ <form action="process.php" method="POST">
+     <div class="txt_field">
+    <input name="username" type="text" required>
+     <span></span>
+     <label>Username</label>
+    </div>
+    <div class="txt_field">
+    <input name="password" type="password" required>
+    <span></span>
+    <label>Password</label>
+</div>
+
+<button type="submit">Login</button>
+<div class="signup_link">
+<p>Not a member? <a href="#">Signup</a></p>
+</div>
+</form>
+</div>
+</body>
+<link rel='stylesheet' href='/stylesheets/style.css' />
 </html>

@@ -1,12 +1,12 @@
 "use strict";
 const print = console.log;
-const csvFilePath='./nse_listed.csv'
+const csvFilePath='./equity.csv'
 const csv=require('csvtojson')
 const mongoose = require('mongoose');
 
 const NSE_COMPANIES = new mongoose.Schema({
     code: {type : String, required : true, unique : true} ,
-    name:  {type : String, required : true, unique : true} ,
+    name:  {type : String, required : true} ,
     series: {type : String} ,
     date_of_listing:  {type : String},
     paid_up_value:  {type : String},
@@ -15,24 +15,31 @@ const NSE_COMPANIES = new mongoose.Schema({
     face_value: {type : String} 
 });
 
-const NSE_Model = mongoose.model('NSE_listed', NSE_COMPANIES);
+const NSE_Model = mongoose.model('nse_listed', NSE_COMPANIES);
 
 
-const load_companies = async function(){
+const load_companies =  function(){
     try{
-        await mongoose.connect('mongodb://localhost:27017/virtualbroker', {useNewUrlParser:true,  useUnifiedTopology: true}, function(){
+        const uri = "mongodb+srv://virtualbroker:Aneesh540@vse-irzi4.mongodb.net/test?retryWrites=true&w=majority"
+        mongoose.connect(uri, {useNewUrlParser:true,  useUnifiedTopology: true}, function(){
             print('conneted to databse');
         });
 
-        await csv()
+        csv()
         .fromFile(csvFilePath)
         .then(function(result){
+            // print(result);
         
             NSE_Model.insertMany(result);
             // print(result.length);
             // print('all companies inserted to database')
             // process.exit();
-        });
+        })
+        // .then( () => {print('done !!!!! enjoy');})
+        // .then( () => setTimeout(()=> print("inside setTimeout"), 5000) )
+        // .then( () => {print('done !!!!! 2 ');})
+        // .then(() => {process.exit();})
+        .catch(err => {print(err);});
     }
 
     catch (e){
