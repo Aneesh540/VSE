@@ -18,27 +18,31 @@
 
 </head>
 <body>
-    <h1> VSE </h2>
+    <!-- <marquee><h1>Virtual Stock Exchange</h1></marquee>  -->
+    
     <div class="center">
-        <h1>Login</h1>
+        <h1>VSE</h1>
+
  <form action="process.php" method="POST">
      <div class="txt_field">
-    <input name="username" type="text" required>
-     <span></span>
-     <label>Username</label>
+        <input name="username" type="text" required>
+        <span></span>
+        <label>Username</label>
     </div>
-    <div class="txt_field">
-    <input name="password" type="password" required>
-    <span></span>
-    <label>Password</label>
-</div>
 
-<button type="submit">Login</button>
+    <div class="txt_field">
+      <input name="password" type="password" required>
+      <span></span>
+      <label>Password</label>
+    </div>
+
+<button id="button" type="submit">Login</button>
 <div class="signup_link">
-<p>Not a member? <a href="#">Signup</a></p>
+<p id="change_form"> <a href="#">Signup</a></p>
 </div>
 </form>
 </div>
 </body>
 <link rel='stylesheet' href='/stylesheets/style.css' />
+<script src="/javascripts/login.js"></script>
 </html>

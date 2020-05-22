@@ -1,0 +1,26 @@
+<%- include('base') -%>
+
+
+        <div class="container">
+              <div class="list-group">
+
+                <%  shares.forEach( (item) => { %>
+                  <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><%= item.code %></h5>
+                        <small class="text-muted">27 April </small>
+                      </div>
+                      <p class="mb-1"> State Bank of India </p>
+                      <button type="button" class="btn btn-outline-success">
+                           <span class="badge badge-dark">10</span> @  &#8377 155.12
+                          <span class="sr-only">unread messages</span>
+                        </button>
+                     
+                      
+                    </a>
+                 <% }); %>
+                    
+              </div>
+
+        </div> 
+    
