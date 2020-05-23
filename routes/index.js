@@ -1,19 +1,69 @@
+"use strict";
 const print = console.log;
+const endpoint = "http://localhost:3000/api";
 
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
+const axios = require('axios');
 
 const api = require('../api/controllers/index');
+const {get_request, post_request} = require('./api_request');
 
-/* GET home page. */
+/* Login, Signup and Search */
 router.get('/', function(req, res, next) {
-
-  let shares = [{code : "LT", price : 800.12, qty : 10},
-  {code : "SBIN", price : 155, qty : 150},
-  {code : "NIFTY", price : 800.12, qty : 10},
-  {code : "HUL", price : 2000, qty : 10}  ];
   
-  res.render('user', { title: 'Express app', shares : shares });
+  res.render('index', { title: 'Login/Signup page'});
+});
+
+router.get('/account/:username', function(req, res, next) {
+  let username = req.params.username;
+  let url = endpoint + `/${username}`
+  let token = req.cookies.access_token;
+  
+  get_request(url, token)
+  .then( result => {
+    let shares = result.data.available;
+    res.render('user', {username : username, shares : shares});
+  })
+  .catch( err => print(err));
+  
+});
+
+
+router.post('/auth', (req, res, next) => {
+
+  const email = req.body.email;
+  const username = req.body.username;
+  const password = req.body.password;
+
+
+  if(email){
+
+    let data = {username : username, email : email, password : password};
+    let url = endpoint + "/signup";
+    post_request(url, data)
+    .then( result => print(result))
+    .catch(error => print(error));
+    
+  }
+
+  else{
+
+    let data = {id  : username,  password : password};
+    let url = endpoint + "/login";
+    post_request(url, data)
+    .then( result => {
+      // insert access_token into cookie
+      // req.cookies.access_token = result.token;
+      res.cookie("access_token", result.token);
+      res.redirect(`/account/${result.username}`);
+    })
+    .catch( error => {
+        print(error);
+    });
+
+  }
+
+
 });
 
 module.exports = router;

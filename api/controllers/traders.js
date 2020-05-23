@@ -11,6 +11,7 @@ const Portfolio = require('../models/portfolio');
 const getuser = async function(req, res, next){
     let username_email = req.body.id;
     let password = req.body.password;
+    print(req.body);
     
     let user = await Trader.findOne({username : username_email});
 
@@ -19,7 +20,7 @@ const getuser = async function(req, res, next){
     }
 
     if(!user){
-        res.status(404).json({statusCode: 404, message : "incorrect username"});
+        res.status(404).json({statusCode: 404, message : `incorrect username/email >> "${username_email}"` });
     }
 
     else{
@@ -35,7 +36,7 @@ const getuser = async function(req, res, next){
                         });
                     }
                     
-                    res.status(200).json({statusCode : 200, message : "Auth success", token : token});
+                    res.status(200).json({statusCode : 200, username : user.username,  message : "Auth success", token : token});
                 });
                 
             }
@@ -84,8 +85,8 @@ const createuser = async function(req, res, next){
             })
             .catch( err => {
 
-                res.status(500).json({
-                    message : 'error creating user',
+                res.status(403).json({
+                    message : 'maybe user already exist',
                     details : err
                 });
 

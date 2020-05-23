@@ -12,7 +12,6 @@ const check_auth = function(req, res, next){
     let jwt_token = req.headers.authorization;
 
     if(jwt_token === undefined){
-        print('inside this also')
         auth_failed.details = 'No jtw token specified, login first'
         res.status(401).json(auth_failed);
         return
@@ -20,7 +19,7 @@ const check_auth = function(req, res, next){
     
     
     jwt_token = jwt_token.split(" ")[1];
-
+    
     jwt.verify(jwt_token, PK, function(err, token){
 
         if(token && (req.params.username === token.username)){
