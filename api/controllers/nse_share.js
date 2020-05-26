@@ -36,10 +36,10 @@ const company_names = function(req, res, next){
     NSE_COMPANIES.find({name : {$regex :name, $options : 'i'}}).select('-_id -__v')
     .then( (result) => {
         // print(result);
-        res.status(200).json({statusCode : "200", data : result });
+        res.status(200).json({statusCode : 200, data : result });
     })
     .catch( (err) => {
-        res.status(404).json({statusCode : "404", message : "error while fetching"});
+        res.status(404).json({statusCode : 404, message : "error while fetching"});
     });
 }
 

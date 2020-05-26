@@ -34,7 +34,10 @@ router.post('/:username/sell', middleware.check_auth, controller.sell_share);
 
 // GET & POST REQUEST endpoint for testing purpose
 router.get('/test', controller.get_test);
-router.post('/test', controller.post_test);
+router.post('/test', function(req, res, next){
+    console.log(req.body);
+    res.json({a : 'received'});
+});
 
 
 module.exports = router;

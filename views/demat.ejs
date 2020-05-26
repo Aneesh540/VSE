@@ -4,8 +4,12 @@
         <div class="container">
               <div class="list-group">
 
+                <% if(shares.length == 0){ %>
+                    <h3> Your demat account is empty </h3>
+                <% } %>
+
                 <%  shares.forEach( (item) => { %>
-                  <a href="#" class="list-group-item list-group-item-action">
+                  <a class="list-group-item list-group-item-action" href=<%= `/share/${item.nse_code}/${username}` %> >
                       
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= item.nse_code %></h5>

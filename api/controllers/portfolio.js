@@ -108,7 +108,7 @@ const show_demat_account = function(req, res, next){
 
 const show_share_holding = function(req, res, next){
     /* share holding details of a particular share */
-    print('inside shareholding')
+    
     const username = req.params.username;
     const code = req.params.NSE_code.toUpperCase();
     let portfolio = _getPortfolio(username);
@@ -153,6 +153,8 @@ const sell_share = function(req, res, next){
 
 
 const buy_share = function(req, res, next){
+    print(req.body);
+    print('inside buy_share');
 
     let share_inf = {   nse_code : req.body.code,
                         name : req.body.name,
