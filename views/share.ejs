@@ -8,72 +8,101 @@
           <%=  stock_info.code %>
         </span>
     </h4>
-
-    <p id="stock_name"> <%= stock_info.name %> </p>
+    
+	<p id="stock_name" hidden> <%= stock_info.name %> </p>
+	<p id="current_price">1100</p>
 
     <h6 class="h6"> NSE : <b><%=  stock_info.code %></b> |
       SERIES : <b><%=  stock_info.series %></b> | 
       ISIN : <b><%=  stock_info.ISIN_number %></b> |
         FACE VALUE : <b><%=  stock_info.face_value %></b> 
     </h6>
-
     <hr>
 
-    <div >
-      <h3> &#8377  <span id="current_price">   800  </span> 
-          <span class="badge badge-success"> -4.23 (0.04%)  </span>
-      </h3>
-      <h6> 22 May : 16:00</h6>
-      <form class="form-inline" id="buy_share" action="#" onsubmit="buy_share(); return false;">
-        
-          <div class="form-group mx-sm-2 mb-2" >
-           
-            <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity" required>
-            <input type="hidden" id="username" value= <%= username %>  >
-            <input type="hidden" id="stock_code" value=<%= stock_info.code %> >
-          </div>
-          <button type="submit" class="btn btn-primary mb-2">Buy at current price</button>
-      </form>
-      </div>
+
+
+    <div class="d-flex w-100 justify-content-between">
+  
+      <h4 class="mb-1"> 
+        &#8377 334
+        <span class="badge badge-success"> +13 (0.13 %) </span>
+      </h4>
+
+      <!-- <small>Buy at this price </small> -->
+    
+  
+
+    <!-- <div class="d-flex w-100 justify-content-between"> -->
+          <!-- <h5 class="mb-1"></h5> -->
+        <span > 
+              <form class="form-inline" id="buy_share" action="#" onsubmit="buy_share(); return false;">
+            
+                <div class="form-group mx-sm-2 mb-2" >
+                
+                  <input type="number" class="form-control" id="quantity" placeholder="Enter Quantity" required>
+                  <input type="hidden" id="username" value= <%= username %>  >
+                  <input type="hidden" id="stock_code" value=<%= stock_info.code %> >
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Buy at current price</button>
+            </form>  
+        </span>
+    <!-- </div>  -->
+
+  </div>
+
     <hr>
-
-    
-    
-
-      <br>
                                                                                                                                           
 
     <% if(share_list.length == 0){ %>
       <h3> No shares of this company in your demat account </h3>
     <% } else { %>
   
+	<form id="sell_share" onsubmit="sell_share(); return false;">
       <h3> Your shares
-
-      <button type="submit" class="btn btn-primary mb-2">Sell</button>
-    </h3>
+      <button type="submit" class="btn btn-primary mb-2" >Sell</button>
+	</h3>
+	</form>
+	
+	<ul class="list-group">
       <%  share_list.forEach( (item) => { %>
-       
-        <div class="list-group" id="all_list">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Buy Price : &#8377 <%= item.buy_price %></h5>
-                <small><%= item.buy_date.split('T')[0] %></small>
-              </div>
-              <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"><span class="badge badge-primary">Quantity available : <%= item.quantity %> </span></h5>
-                    <span > <input class="form-control mr-sm-2" placeholder="sell quantity" id=<%= item._id %> >  </span>
-                  </div> 
+      
+        <li class="list-group-item">
+			<div class="list-group" id="share_lot_info">
+				<!-- <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start"> -->
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Buy Price : &#8377 <%= item.buy_price %></h5>
+					<small><%= item.buy_date.split('T')[0] %></small>
+				</div>
+				<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1"><span class="badge badge-primary">Quantity available : <%= item.quantity %> </span></h5>
+						<span > 
+								
+								<input type="number" class="form-control" placeholder="Enter selling quantity" id=<%= item._id %> >
+						</span>
+				</div> 
               
-            </a>
-            </div>
+            	<!-- </a> -->
+			</div>
+		
+			</li>
+		
           
-       <% }); %>
+	   <% }); %>
+	   
+	</ul>
 
        
-      <% } %>
-
+	  <% } %>
+	  
+	  <hr>
+	  <br>
+	  <br>
+	  
 
 </div>
 </body>
+
+
 <script src="/javascripts/share.js"></script>
+
 </html>
