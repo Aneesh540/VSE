@@ -1,14 +1,4 @@
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,10 +8,13 @@
 
 </head>
 <body>
-    <!-- <marquee><h1>Virtual Stock Exchange</h1></marquee>  -->
+
+  <br>
+  <h1 class="h1" style="text-align:center">Virtual Stock Exchange</h1>
     
     <div class="center">
-        <h1>VSE</h1>
+        <marquee scrollamount="3" bgcolor="lightblue"> <h2> NYSE | NASDAQ | JPX | LSE | SSE | SEHK | SZSE | TMX | BSE | NSE | ASX </h2> </marquee>
+        <!-- <h1>Virtual Stock Exchange</h1> -->
 
  <form action="/auth" method="POST">
      <div class="txt_field">
@@ -42,6 +35,8 @@
 </div>
 </form>
 </div>
+
+
 </body>
 <link rel='stylesheet' href='/stylesheets/style.css' />
 <script src="/javascripts/login.js"></script>

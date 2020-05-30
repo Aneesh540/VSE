@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+    <% if(title === "AuthError"){ %>
+        <h1>Auth Failed </h1>
+        <h2> Authorization failed, to access this route <a href="/">Login</a> first</h2>
+    <% } else { %>
+
+      <h2> <%= title %></h2>
+    
+    <% } %>
+
+  </body>
+</html>

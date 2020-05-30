@@ -4,16 +4,24 @@
         <div class="container">
               <div class="list-group">
 
-                <% if(shares.length == 0){ %>
+                <% if(shares.length === 0){ %>
                     <h3> Your demat account is empty </h3>
-                <% } %>
+                <% } else {%>
+                
+                <h3> Your Demat account </h3>
+                  <br>
+                  <h4> Total amount invested : &#8377 <%= buy %></h4>
+                  <h4> Total amount sold : &#8377 <%= sell %></h4>
 
-                <%  shares.forEach( (item) => { %>
+
+                <% } %>
+                
+                <%  shares.reverse().forEach( (item) => { %>
                   <a class="list-group-item list-group-item-action" href=<%= `/share/${item.nse_code}/${username}` %> >
                       
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1"><%= item.nse_code %></h5>
-                        <small class="text-muted"> 27 April </small>
+                        <small class="text-muted"> <%= item.buy_date.split('T')[0] %> </small>
                       </div>
                       <p class="mb-1"> <%= item.name %> </p>
                       <button type="button" class="btn btn-outline-success">

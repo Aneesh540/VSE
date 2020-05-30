@@ -1,6 +1,6 @@
 print = console.log;
 const endpoint = "http://localhost:3000/api";
-let API_KEY = 'RXGZSQ2O11C8CHSU';
+
 
 let get_cookie = function(name){
 
@@ -41,12 +41,13 @@ async function postData(url, data) {
   
 
 
-let fetch_current_price = async function(){
+let fetch_current_price = async function(name){
 
     let nse_code = document.querySelector('#NSE_code').innerHTML;
+    let KEY = Math.random().toString(36).substring(2); // generate a random api key
     nse_code = nse_code.trim();
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=NSE:${nse_code}&interval=1min&apikey=${API_KEY}`;
-
+    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=NSE:${nse_code}&interval=1min&apikey=${KEY}`;
+    
     let response = await fetch(url);
     let current_price = await response.json();
 
@@ -55,14 +56,53 @@ let fetch_current_price = async function(){
     	let p = Object.keys(current_price)[1]; //
 		p = Object.values(current_price[p]);
 
-		let  [open, high, low, close, volume] = Object.values(p[0]) ;
-		
-        let intraday = {open : open, high : high, low : low, close : close, volume : volume};
+        p = Object.values(p[0])[0]; // current price of stock
         
-        print(intraday);
+
+        let display = document.querySelector('#current_price_display');
+        let cp = document.querySelector('#current_price');
+
+        cp.innerHTML = p;
+
+        display.innerHTML = `&#8377 ${p} <span class="badge badge-success"> +NA (NA %)</span>`;
+        
+        // UPDATING UP OR DOWN WRT PREVIOUS CLOSING
+        KEY = Math.random().toString(36).substring(2); 
+        const url2 = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=NSE:${nse_code}&apikey=${KEY}`;
+       
+        response = await fetch(url2);
+        current_price = await response.json();
+
+        let q = Object.keys(current_price)[1]; //
+        q = Object.values(current_price[q]);
+        q = Object.values(q[0]);
+        let [open, high, low, ...restofthing] = q;
+
+        print(p);
+        print(q);
+        
+        open = parseInt(open);
+
+        let colour = 'success'
+        
+
+        let up_low = parseInt(p) - parseInt(open);
+        print(up_low);
+        up_low = up_low.toFixed(3);
+        print(up_low);
+        let percent = ((p - open)*100)/open;
+        percent = percent.toFixed(3);
+
+        if(up_low < 0){
+            colour = 'danger'
+        }
+        
+        print(`&#8377 ${p} <span class="badge badge-${colour}"> ${up_low} (${percent} %)</span>`);
+        display.innerHTML = `&#8377 ${p} <span class="badge badge-${colour}"> ${up_low} (${percent} %)</span>`;
 
 }
 
+fetch_current_price();
 
 const buy_share = function(){
 
@@ -72,6 +112,11 @@ const buy_share = function(){
             code : document.getElementById('stock_code').value,
             name : document.getElementById('stock_name').innerHTML.trim()
     }
+
+    if(data.quantity <= 0){
+        alert('Quantity should be  a positive number');
+        return;
+    }
     
     let username = document.getElementById('username').value.trim();
     let url = endpoint + `/${username}/buy`;
@@ -80,7 +125,7 @@ const buy_share = function(){
     if(confirm(`place order of ${data.quantity} shares @ ${data.price} = Rs. ${data.price*data.quantity}`)){
         postData(url, data)
         .then(result => {
-            console.log(result);
+            
             alert(`TRANSACTION COMPLETED PRICE:${data.price} QUANTITY:${data.quantity}`);
 
 
@@ -117,11 +162,12 @@ const sell_share = function(){
         let data = sell_list;
         postData(url, data)
         .then(result => {
-            console.log(result);
-            print(result.credit_amount);
+            
+            
 
             if(result.data.credit_amount === 0){
                 alert('Cannot sell, quantity more than available');
+                return;
             }
             alert(`transaction completed quantity sold:${Sum}, price:${sell_price}`);
 

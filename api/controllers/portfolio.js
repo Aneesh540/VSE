@@ -153,8 +153,6 @@ const sell_share = function(req, res, next){
 
 
 const buy_share = function(req, res, next){
-    print(req.body);
-    print('inside buy_share');
 
     let share_inf = {   nse_code : req.body.code,
                         name : req.body.name,

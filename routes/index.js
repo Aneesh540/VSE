@@ -4,19 +4,18 @@ const endpoint = "http://localhost:3000/api";
 
 
 const router = require('express').Router();
-const axios = require('axios');
 
 const api = require('../api/controllers/index');
 const {get_request, post_request} = require('./api_request');
 
 
-/* render Login/Signup page  */
+/* Login-Signup page  */
 router.get('/', function(req, res, next) {
   
   res.render('index', { title: 'Login/Signup page'});
 });
 
-
+/* Login & Signup route  */
 router.post('/auth', (req, res, next) => {
 
 	const email = req.body.email;
@@ -29,8 +28,12 @@ router.post('/auth', (req, res, next) => {
 	  let data = {username : username, email : email, password : password};
 	  let url = endpoint + "/signup";
 	  post_request(url, data)
-	  .then( result => print(result))
-	  .catch(error => print(error));
+	  .then( result => {
+			res.render('index', { title: 'Login/Signup page', redirect : true});
+		})
+	  .catch(error => {
+			res.status(500).json({error : error});
+		});
 	  
 	}
   
@@ -46,7 +49,7 @@ router.post('/auth', (req, res, next) => {
 		res.redirect(`/account/${result.username}`);
 	  })
 	  .catch( error => {
-		  print(error);
+		  error : error
 	  });
   
 	}
@@ -75,33 +78,46 @@ router.post('/search', (req, res, next) =>{
 		
 
 	})
-	.catch( (error) => res.json(error) );
+	.catch( (error) => res.json({error : error}) );
 
 
 });
 
 
-/* after login > render Demat account of user */
+/* Show Demat Account  */
 router.get('/account/:username', function(req, res, next) {
   let username = req.params.username;
   let url = endpoint + `/${username}`
 	let token = req.cookies.access_token;
 	
 	if(!token){
-		res.redirect('/');
+		res.render('broken', {title : "AuthError"});
 	}
   
   get_request(url, token)
   .then( result => {
-    let shares = result.data.available;
-    res.render('demat', {username : username, shares : shares});
+
+		
+
+		if(result.statusCode !== 200){
+			res.render('broken', {title : "AuthError"});
+		}
+
+		let shares = result.data.available;
+		
+		res.render('demat', {username : username, 
+			shares : shares,
+			 buy : result.data.total_buy, 
+			sell : result.data.total_sell});
   })
-  .catch( err => print(err));
+  .catch( err => {
+		res.status(500).json({error : error});
+	});
   
 });
 
 
-/* particular share details */
+/* Particular share details */
 router.get('/share/:nse_code/:username', function(req, res, next){
 	const nse_code = req.params.nse_code;
 	const username = req.params.username;
@@ -117,21 +133,21 @@ router.get('/share/:nse_code/:username', function(req, res, next){
 	Promise.all([stock_price, user_stock_list])
 	.then((values) => {
 		let stock_info = values[0].data;
-		print(values[1]);
 		if(values[1].statusCode === 401){
 		
-			res.redirect('/');
+			res.render('broken', {title : "AuthError"});
 		}
 
 		else{
 			let share_list = values[1].data;
-			print(values[1]);
 			res.render('share', {username : username, stock_info: stock_info, share_list : share_list });
 		}
 		
 		
 	})
-	.catch((error) => print(error));
+	.catch((error) => {
+		res.status(500).json({error : error});
+	});
 	
 });
 

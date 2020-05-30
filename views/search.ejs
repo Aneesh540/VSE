@@ -1,8 +1,13 @@
 <%- include('base') -%>
 
 <div class="container">
-        <p> Search results for "<%= query %>"</p>
+        <h3> Search results for "<%= query %>"</h3>
+        <hr>
         <ul class="list-group">
+
+                <% if(search_result.length === 0){ %>
+                  <h2 class="h2"> No comapnies found</h2>
+                <% } %>
                 
                 <%  search_result.forEach( (item) => { %>
                   

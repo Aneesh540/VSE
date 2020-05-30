@@ -1,6 +1,7 @@
 "use strict";
 print = console.log;
 
+let alF = () => {alert('Account created now login');}
 
 let link = document.querySelector('#change_form a');
 

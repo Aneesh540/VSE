@@ -10,7 +10,7 @@
     </h4>
     
 	<p id="stock_name" hidden> <%= stock_info.name %> </p>
-	<p id="current_price">1100</p>
+	<p id="current_price">NA</p>
 
     <h6 class="h6"> NSE : <b><%=  stock_info.code %></b> |
       SERIES : <b><%=  stock_info.series %></b> | 
@@ -23,9 +23,8 @@
 
     <div class="d-flex w-100 justify-content-between">
   
-      <h4 class="mb-1"> 
-        &#8377 334
-        <span class="badge badge-success"> +13 (0.13 %) </span>
+      <h4 class="mb-1" id="current_price_display"> 
+        &#8377 NA <span class="badge badge-success" id="up_down"> +NA (NA %)</span>
       </h4>
 
       <!-- <small>Buy at this price </small> -->
