@@ -33,13 +33,14 @@ that's it :grin:
 ## App SS
 
 ### Demat account
-![dema](https://user-images.githubusercontent.com/25201571/83335181-7fd44c80-a2c8-11ea-8e03-ebf03a6f9490.PNG)
+![demat](https://1.bp.blogspot.com/-PcIsqmY3wfc/X3n8BcqtufI/AAAAAAAAAQM/wunP7PVPEh4p0cbMz4lxhwmqZwdR0T2TgCLcBGAsYHQ/s1648/83335181-7fd44c80-a2c8-11ea-8e03-ebf03a6f9490.gif)
+
 
 ### Particular share detail
-![shares](https://user-images.githubusercontent.com/25201571/83335185-82cf3d00-a2c8-11ea-8f0a-246b18c704fb.PNG)
+![shares](https://1.bp.blogspot.com/-WOu0e8Pvz8g/X3n8BdP447I/AAAAAAAAAQQ/cbO80US7w3cFDEZ0rAUUM8jTYmA_ep3bwCLcBGAsYHQ/s1637/83335185-82cf3d00-a2c8-11ea-8f0a-246b18c704fb.gif)
 
 ### Search NSE companies
-![searchre](https://user-images.githubusercontent.com/25201571/83335238-05f09300-a2c9-11ea-9c65-b03675c1b421.PNG)
+![searches](https://1.bp.blogspot.com/-3tS8bil6EVA/X3n8BRi0sDI/AAAAAAAAAQU/dzd95m3eNBsdL3SOvz1vWP3ulv4HKfuAgCLcBGAsYHQ/s1884/output-onlinepngtools.gif)
 
 ## Acknowledgments
 * **Alpha Vantage** for providing free API on realtime stock market data (even you can put any random strings as APIKEY )
